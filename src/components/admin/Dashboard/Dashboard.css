@@ -1,0 +1,19 @@
+.heading{
+    padding: 150px 0px 20px;
+    text-align: center;
+    font-size: 26px;
+    text-decoration: underline;
+}
+
+.table{
+    background-color: #2a689b;
+    font-size: 20px;
+    text-align: center;
+    color: #CCD8E3;
+    border-color: aqua;
+}
+
+td{
+    width: 250px;
+    height: 45px;
+}

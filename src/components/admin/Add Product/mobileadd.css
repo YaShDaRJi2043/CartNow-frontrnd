@@ -1,0 +1,38 @@
+.pro_main{
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+.pro_div{
+    margin: 30px 0px;
+    border: 1px solid #888C8C;
+    border-radius: 7px;
+    padding: 20px;
+    background-color: white;
+}
+
+.pro_add{
+    width: 30vw;
+    height: 31px;
+    border-radius: 5px;
+    border: 1px solid #888C8C;
+    background-color: whitesmoke;
+    margin: 5px 0px;
+}
+
+.pro_confirm{
+    height: 35px;
+    width: 130px;
+    margin-top: 10px;
+    border-color: #F0F0F0;
+    cursor: pointer;
+}
+
+.pro_manage{
+    height: 35px;
+    width: 150px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-color: #F0F0F0;
+}

@@ -1,0 +1,78 @@
+.homePageMainDiv {
+  width: 98%;
+  margin: 10px auto;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.multiCarouselDiv {
+  display: flex;
+}
+
+.multiCarouse {
+  width: 80%;
+  height: 100%;
+}
+
+.electronicAdvertisement {
+  align-content: center;
+  margin-top: 50px;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.advertisementTitle {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.electronicAdvertisementImg {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+}
+
+.homekitchenAdvertisement {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 13px 0;
+}
+
+@media (max-width: 1000px) {
+  .homekitchenAdvertisementImg {
+    height: 200px;
+  }
+}
+
+@media (max-width: 813px) {
+  .electronicAdvertisement {
+    display: none;
+  }
+
+  .multiCarouse {
+    width: 100%;
+  }
+
+  .homekitchenAdvertisementImg {
+    height: 150px;
+  }
+}
+
+@media (max-width: 620px) {
+  .homekitchenAdvertisementImg {
+    height: 110px;
+  }
+}
+
+@media (max-width: 440px) {
+  .homekitchenAdvertisementImg {
+    height: 90px;
+  }
+}
+
+@media (max-width: 380px) {
+  .homekitchenAdvertisementImg {
+    height: 80px;
+  }
+}

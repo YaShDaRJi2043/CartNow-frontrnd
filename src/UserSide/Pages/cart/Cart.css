@@ -1,0 +1,161 @@
+.CartMainDiv {
+  padding: 120px 80px 30px;
+}
+
+.cartProductDetails {
+  display: flex;
+  margin: 20px 0;
+}
+
+.cartProductImgDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.cartProductImg {
+  height: 220px;
+  width: 220px;
+  object-fit: contain;
+}
+
+.productDetails {
+  background-color: white;
+  width: 70%;
+  padding-left: 40px;
+}
+
+.cartLongTitle {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.cartShortTitle {
+  font-size: 18px;
+}
+
+.dispatchedTxt {
+  color: rgb(255, 80, 4);
+  font-size: 18px;
+}
+
+.ShippingTxt {
+  font-size: 18px;
+}
+
+.freeShippingTxt {
+  color: green;
+  font-weight: 600;
+}
+
+.productPrice {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.cartProductDltBtn {
+  border: none;
+  background-color: rgb(158, 64, 85);
+  color: whitesmoke;
+  border-radius: 40px;
+  height: 35px;
+  width: 90px;
+  cursor: pointer;
+}
+
+.emptyCartImg {
+  height: 350px;
+  width: auto;
+}
+
+@media (max-width: 919px) {
+  .cartProductImg {
+    height: 180px;
+    width: 180px;
+  }
+
+  .cartLongTitle {
+    font-size: 18px;
+  }
+
+  .cartShortTitle {
+    font-size: 16px;
+  }
+
+  .dispatchedTxt {
+    font-size: 16px;
+  }
+
+  .ShippingTxt {
+    font-size: 16px;
+  }
+
+  .productPrice {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 835px) {
+  .cartProductImg {
+    height: 150px;
+    width: 150px;
+  }
+
+  .cartLongTitle {
+    font-size: 16px;
+  }
+
+  .cartShortTitle {
+    font-size: 14px;
+  }
+
+  .dispatchedTxt {
+    font-size: 14px;
+  }
+
+  .ShippingTxt {
+    font-size: 14px;
+  }
+
+  .productPrice {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 754px) {
+  .CartMainDiv {
+    padding: 120px 15px 30px;
+  }
+
+  .cartProductImg {
+    height: 100px;
+    width: 100px;
+  }
+
+  .productDetails {
+    padding-left: 10px;
+  }
+
+  .cartLongTitle {
+    display: none;
+  }
+
+  .cartShortTitle {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .productPrice {
+    font-size: 16px;
+  }
+
+  .cartProductDltBtn {
+    height: 30px;
+    width: 60px;
+    font-size: 14px;
+  }
+
+  .emptyCartImg {
+    height: 250px;
+    width: auto;
+  }
+}

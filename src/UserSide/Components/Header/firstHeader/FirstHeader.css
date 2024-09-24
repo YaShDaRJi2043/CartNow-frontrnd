@@ -1,0 +1,87 @@
+.firstNavDiv {
+  height: 60px;
+  background-color: #403e3d;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#borderForFirstHeaderCompo {
+  padding: 0px 6px;
+  border-radius: 5px;
+  height: 45px;
+  align-content: center;
+
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+.MainLogo {
+  width: auto;
+  height: 44px;
+}
+
+.AddressDiv {
+  color: white;
+  display: flex;
+  cursor: pointer;
+}
+
+.AddressLogo {
+  align-content: center;
+  margin-right: 4px;
+}
+
+.signInDiv {
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+
+.cartDiv {
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+
+.CartTxt {
+  margin-left: 8px;
+}
+
+@media (max-width: 600px) {
+  .MainLogo {
+    width: auto;
+    height: 35px;
+  }
+
+  .AddressDiv {
+    font-size: 14px;
+  }
+
+  .AddressLogo {
+    font-size: 14px;
+  }
+
+  .signInDiv {
+    font-size: 16px;
+  }
+
+  .cartDiv {
+    font-size: 16px;
+  }
+
+  .CartTxt {
+    margin-left: 4px;
+  }
+}
+
+@media (max-width: 450px) {
+  .AddressLogo {
+    display: none;
+  }
+
+  .CartTxt {
+    display: none;
+  }
+}

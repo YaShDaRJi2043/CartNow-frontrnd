@@ -1,0 +1,41 @@
+.smain{
+    display: flex;
+    justify-content: center;
+    padding: 150px 0px 50px;
+}
+
+.scontainer{
+    height: 300px;
+    width: 500px;
+    background-color: #CCD8E3;
+}
+
+.text_email{
+    font-size: 30px;
+    font-weight: 400;
+    display: flex;
+    justify-content: center;
+    margin-top: 55px;
+}
+
+.semail{
+    width: 283px;
+    height: 31px;
+    border-radius: 30px;
+    border: none;
+    padding-left: 20px;
+    margin-top: 30px;
+    outline: none;
+}
+
+.sbtn{
+    width: 180px;
+    height: 50px;
+    border-radius: 30px;
+    border: none;
+    background-color:  #3D4348;
+    font-size: 20px;
+    color: #FFFFFF ;
+    cursor: pointer;
+    margin-top: 30px;
+}

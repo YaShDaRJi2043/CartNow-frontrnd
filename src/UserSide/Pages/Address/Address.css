@@ -1,0 +1,43 @@
+.addressMainDiv {
+  display: grid;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 500;
+  padding-top: 120px;
+}
+
+.addressInput {
+  border-radius: 5px;
+  border: 1px solid #888c8c;
+  width: 100%;
+  height: 35px;
+  outline: none;
+  padding: 0 10px;
+}
+
+.addressDropDown {
+  width: 100%;
+  height: 35px;
+  border-radius: 5px;
+  border: 1px solid #888c8c;
+  background-color: #efefef;
+  cursor: pointer;
+}
+
+.addressBtn {
+  background-color: rgb(158, 64, 85);
+  color: whitesmoke;
+  display: grid;
+  place-self: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  height: 35px;
+  width: 150px;
+  border-radius: 5px;
+  margin-top: 10px;
+
+  &:hover {
+    background-color: rgb(145, 50, 85);
+  }
+}

@@ -1,0 +1,8 @@
+.Mbtn{
+    color: white;
+    height: 50px;
+    width: 80px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

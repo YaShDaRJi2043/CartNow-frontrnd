@@ -1,0 +1,157 @@
+.LoginMainDiv {
+  height: 100vh;
+  align-content: center;
+}
+
+.LoginContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.LoginLeftDiv {
+  background-color: #ccd8e3;
+  padding: 60px 80px;
+}
+
+.LoginTxt {
+  font-size: 26px;
+  font-weight: 500;
+  text-align: center;
+  color: #0d273ec2;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 30px;
+  cursor: default;
+}
+
+.LoginInputFieldDiv {
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+
+.LoginInputField {
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding-left: 15px;
+  margin: 10px 0;
+  height: 35px;
+  width: 300px;
+
+  &:focus-visible {
+    background-color: #a9c8e6;
+  }
+}
+
+.LogineyeIcon {
+  position: absolute;
+  top: 50%;
+  left: 260px;
+  transform: translateY(-50%);
+  color: gray;
+  cursor: pointer;
+}
+
+.forgotPasswordDiv {
+  text-align: end;
+  margin: 15px 0;
+}
+
+.forgotPassword {
+  text-decoration: none;
+}
+
+.LoginBtnDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.LoginBtn {
+  background-color: #3d4348;
+  color: white;
+  padding: 10px 50px;
+  border-radius: 22px;
+  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  &:active {
+    box-shadow: none;
+    transform: scale(0.9);
+  }
+
+  &:hover {
+    background-color: #354553;
+  }
+}
+
+.LoginRightDiv {
+  background-color: #808c96;
+  align-content: center;
+  padding: 0 40px;
+}
+
+.newHereTxt {
+  font-size: 26px;
+  font-weight: 500;
+  color: #0d273e;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  cursor: default;
+}
+
+.RegisterBtnDiv {
+  text-align: center;
+}
+
+.RegisterBtn {
+  text-decoration: none;
+  color: black;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 22px;
+}
+
+@media (max-width: 737px) {
+  .LoginLeftDiv {
+    padding: 30px 20px;
+  }
+
+  .LoginTxt {
+    font-size: 18px;
+  }
+
+  .LoginInputField {
+    height: 35px;
+    width: 200px;
+  }
+
+  .LogineyeIcon {
+    left: 160px;
+  }
+
+  .forgotPasswordDiv {
+    margin: 15px 5px;
+  }
+
+  .LoginRightDiv {
+    padding: 0 10px;
+  }
+
+  .newHereTxt {
+    font-size: 18px;
+  }
+
+  .RegisterBtn {
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .RegisterBtn {
+    padding: 1px;
+    font-size: 12px;
+  }
+}

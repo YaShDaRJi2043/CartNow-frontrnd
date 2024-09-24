@@ -1,0 +1,26 @@
+.fmain{
+    padding: 80px 0px 50px;
+    text-align: center;
+}
+
+.feed{
+    font-size: 40px;
+}
+
+.m1-rem{
+    height: 30px;
+    width: 300px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    padding-left: 10px;
+}
+
+.sub{
+    width: 90px;
+    height: 30px;
+    border-radius: 6px;
+    background-color: rgb(188, 183, 177);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}

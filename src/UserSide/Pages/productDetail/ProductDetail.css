@@ -1,0 +1,83 @@
+.productDetailMainDiv {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+  padding: 150px 0 50px;
+  width: 92%;
+  justify-content: center;
+  /* margin-left: 50px; */
+}
+
+.productDetailImageDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.productDetailImage {
+  height: 400px;
+  width: 400px;
+  object-fit: contain;
+}
+
+.cartBtnDiv {
+  display: flex;
+  justify-content: center;
+}
+
+.cartBtn {
+  margin-top: 20px;
+  width: 120px;
+  height: 4vh;
+  background-color: #ffce44;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.detailedDiv {
+  height: auto;
+  border: thin solid #c9c9c9;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.productMrp {
+  color: #b12704;
+}
+
+.productCostAndDiscount {
+  color: green;
+}
+
+.FreeAndFastDelivery {
+  color: blue;
+  font-weight: 500;
+  padding: 5px 0;
+}
+
+.productDescriptionDiv {
+  max-height: 200px;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+
+.productDescription {
+  letter-spacing: 0.4px;
+}
+
+@media (max-width: 850px) {
+  .productDetailImage {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+@media (max-width: 750px) {
+  .productDetailMainDiv {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    width: 100%;
+  }
+
+  .detailedDiv {
+    margin: 30px 30px 0;
+  }
+}

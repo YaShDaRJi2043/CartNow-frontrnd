@@ -1,0 +1,92 @@
+.secondNavDiv {
+  display: flex;
+  justify-content: space-around;
+  background-color: #73716f;
+  align-items: center;
+  height: 44px;
+}
+
+.CategoriesDiv {
+  display: flex;
+}
+
+.Categories {
+  color: white;
+  cursor: pointer;
+  height: 35px;
+  align-content: center;
+  padding: 0 6px;
+  border-radius: 5px;
+
+  &:hover {
+    border: 1px solid white;
+  }
+}
+
+.search_input {
+  height: 36px;
+  width: 280px;
+  padding-left: 10px;
+  font-size: 16px;
+  border: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  outline: none;
+}
+
+.searchicon {
+  background-color: #d9c3c1;
+  height: 36px;
+  align-content: center;
+  padding: 0 10px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  cursor: pointer;
+}
+
+.searchLists {
+  background-color: rgba(233, 233, 233, 0.889);
+  width: 325px;
+  border-radius: 5px;
+  position: absolute;
+  top: 102px;
+  height: 300px;
+  overflow: scroll;
+  border-radius: 5px;
+  scrollbar-width: none;
+}
+
+.searchListIteam:hover {
+  background-color: white;
+}
+
+@media (max-width: 950px) {
+  .Categories {
+    font-size: 14px;
+  }
+
+  .search_input {
+    height: 26px;
+    width: 180px;
+  }
+
+  .searchicon {
+    height: 26px;
+    padding: 0 4px;
+  }
+
+  .searchLists {
+    width: 215px;
+  }
+}
+
+@media (max-width: 780px) {
+  .secondNavDiv {
+    justify-content: space-between;
+    padding: 0 40px;
+  }
+
+  .responsiveRev {
+    display: none;
+  }
+}
