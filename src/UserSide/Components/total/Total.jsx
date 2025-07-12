@@ -6,7 +6,7 @@ const Total = ({ item }) => {
   const totalAmount = () => {
     let price = 0;
     item.map((e) => {
-      return <>{(price += e.mrp)}</>;
+      return <>{(price += e?.productDetails?.mrp)}</>;
     });
     setPrice(price);
   };

@@ -1,229 +1,226 @@
 import React, { useEffect, useState } from "react";
-import "./Address.css";
+import { useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import BASE_URL from "../../../services/Helper";
+import "./Address.css";
+
+const initialForm = {
+  house: "",
+  area: "",
+  landmark: "",
+  pin: "",
+  state: "",
+  city: "",
+  addressType: "",
+};
+
+const states = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+];
 
 const Address = () => {
-  const [formData, setFormData] = useState({
-    house: "",
-    area: "",
-    landmark: "",
-    pin: "",
-    state: "",
-    city: "",
-    addressType: "",
-  });
-  console.log(formData);
-
+  const { user, userToken } = useSelector((state) => state.auth);
+  const [formData, setFormData] = useState(initialForm);
   const [isEditMode, setIsEditMode] = useState(false);
-  const USER_ID = localStorage.getItem("userId");
+  const [loading, setLoading] = useState(false);
 
+  // Fetch address on mount
   useEffect(() => {
     const fetchAddress = async () => {
       try {
-        const response = await BASE_URL.get(
-          `/displayUserAddress?id=${USER_ID}`
-        );
-        if (
-          response.data.status === 201 &&
-          response.data.displayUserAddress.length > 0
-        ) {
-          const address = response.data.displayUserAddress[0];
-          setFormData({
-            house: address.house,
-            area: address.area,
-            landmark: address.landmark,
-            pin: address.pin,
-            state: address.state,
-            city: address.city,
-            addressType: address.addressType,
-          });
+        setLoading(true);
+        const res = await BASE_URL.get(`/user/address/get/${user._id}`, {
+          headers: { Authorization: userToken },
+        });
+
+        const address = res?.data?.displayUserAddress?.[0];
+        if (res.data.status === 201 && address) {
+          setFormData(address);
           setIsEditMode(true);
         }
-      } catch (error) {
-        console.log("Error fetching address:", error);
+      } catch (err) {
+        console.error("Fetch error:", err);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchAddress();
-  }, []);
 
-  const numberLimit = (e) => {
-    if (
-      (e.keyCode >= 65 && e.keyCode <= 90) ||
-      e.keyCode === 32 ||
-      (e.keyCode >= 106 && e.keyCode <= 111)
-    ) {
-      e.preventDefault();
-    }
-  };
+    fetchAddress();
+  }, [user._id, userToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async () => {
     try {
-      const response = isEditMode
-        ? await BASE_URL.put(`/updateUserAddress?id=${USER_ID}`, formData)
-        : await BASE_URL.post(`/addUserAddress?id=${USER_ID}`, formData);
+      setLoading(true);
+      const url = isEditMode
+        ? `/user/address/update/${user._id}`
+        : `/user/address/add/${user._id}`;
 
-      if (response.data.status === 201) {
-        alert(
+      const res = await BASE_URL[isEditMode ? "put" : "post"](url, formData, {
+        headers: { Authorization: userToken },
+      });
+
+      if (res.data.status === 201) {
+        toast.success(
           isEditMode
             ? "Address updated successfully"
-            : "Address submitted successfully"
+            : "Address added successfully"
         );
-
-        if (!isEditMode) {
-          setIsEditMode(true);
-        }
+        setIsEditMode(true);
       }
-    } catch (error) {
-      console.log("Error submitting/updating address:", error);
+    } catch (err) {
+      console.error("Submit error:", err);
+      toast.error("Failed to save address. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleNumberInput = (e) => {
+    const invalidKey = e.key && isNaN(Number(e.key)) && e.key !== "Backspace";
+    if (invalidKey) e.preventDefault();
+  };
+
+  const renderInput = (label, name, type = "text", props = {}) => (
+    <div className="address-form-group">
+      <label className="address-form-label">{label}</label>
+      <input
+        type={type}
+        name={name}
+        value={formData[name]}
+        onChange={handleChange}
+        className="address-form-input"
+        {...props}
+      />
+    </div>
+  );
+
   return (
-    <>
-      <div className="addressMainDiv">
-        <div>
-          <div>House no., Flat, Building, Company, Apartment</div>
-          <div>
-            <input
-              type="text"
-              className="addressInput"
-              name="house"
-              value={formData.house}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
+    <div className="address-form-container">
+      <h2 className="address-form-title">
+        {isEditMode ? "Edit Address" : "Add New Address"}
+      </h2>
 
-        <div>
-          <div>Area, Street, Sector, Village</div>
-          <div>
-            <input
-              type="text"
-              className="addressInput"
-              name="area"
-              value={formData.area}
-              onChange={handleChange}
-            />
-          </div>
+      {loading ? (
+        <div className="address-form-skeleton">
+          {[...Array(7)].map((_, i) => (
+            <div key={i} className="address-field-skeleton">
+              <div className="skeleton-label"></div>
+              <div className="skeleton-input"></div>
+            </div>
+          ))}
+          <div className="skeleton-button"></div>
         </div>
+      ) : (
+        <form className="address-form" onSubmit={(e) => e.preventDefault()}>
+          {renderInput(
+            "House no., Flat, Building, Company, Apartment",
+            "house",
+            "text",
+            { required: true }
+          )}
+          {renderInput("Area, Street, Sector, Village", "area", "text", {
+            required: true,
+          })}
+          {renderInput("Landmark", "landmark", "text", {
+            placeholder: "E.g. near apollo hospital",
+          })}
+          {renderInput("Pincode", "pin", "tel", {
+            maxLength: 6,
+            required: true,
+            onKeyDown: handleNumberInput,
+          })}
+          {renderInput("City", "city", "text", { required: true })}
 
-        <div>
-          <div>Landmark</div>
-          <div>
-            <input
-              type="text"
-              placeholder="E.g. near apollo hospital"
-              className="addressInput"
-              name="landmark"
-              value={formData.landmark}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>Pincode</div>
-          <div>
-            <input
-              type="tel"
-              maxLength="6"
-              className="addressInput"
-              name="pin"
-              value={formData.pin}
-              onKeyDown={numberLimit}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>City</div>
-          <div>
-            <input
-              type="text"
-              className="addressInput"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>State</div>
-          <div>
+          <div className="address-form-group">
+            <label className="address-form-label">State</label>
             <select
-              className="addressDropDown"
               name="state"
               value={formData.state}
               onChange={handleChange}
+              className="address-form-select"
+              required
             >
               <option value="" disabled>
                 Select State
               </option>
-              <option value="Andhra Pradesh">Andhra Pradesh</option>
-              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-              <option value="Assam">Assam</option>
-              <option value="Bihar">Bihar</option>
-              <option value="Chhattisgarh">Chhattisgarh</option>
-              <option value="Goa">Goa</option>
-              <option value="Gujarat">Gujarat</option>
-              <option value="Haryana">Haryana</option>
-              <option value="Himachal Pradesh">Himachal Pradesh</option>
-              <option value="Jharkhand">Jharkhand</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Kerala">Kerala</option>
-              <option value="Madhya Pradesh">Madhya Pradesh</option>
-              <option value="Maharashtra">Maharashtra</option>
-              <option value="Manipur">Manipur</option>
-              <option value="Meghalaya">Meghalaya</option>
-              <option value="Mizoram">Mizoram</option>
-              <option value="Nagaland">Nagaland</option>
-              <option value="Odisha">Odisha</option>
-              <option value="Punjab">Punjab</option>
-              <option value="Rajasthan">Rajasthan</option>
-              <option value="Sikkim">Sikkim</option>
-              <option value="Tamil Nadu">Tamil Nadu</option>
-              <option value="Telangana">Telangana</option>
-              <option value="Tripura">Tripura</option>
-              <option value="Uttar Pradesh">Uttar Pradesh</option>
-              <option value="Uttarakhand">Uttarakhand</option>
-              <option value="West Bengal">West Bengal</option>
+              {states.map((state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              ))}
             </select>
           </div>
-        </div>
 
-        <div>
-          <div>Address Type</div>
-          <div>
+          <div className="address-form-group">
+            <label className="address-form-label">Address Type</label>
             <select
-              className="addressDropDown"
               name="addressType"
               value={formData.addressType}
               onChange={handleChange}
+              className="address-form-select"
+              required
             >
               <option value="" disabled>
                 Select an Address Type
               </option>
-              <option>Home (7 AM - 9 PM delivery)</option>
-              <option>Office/Commercial (10 AM - 6 PM delivery)</option>
+              <option value="Home">Home (7 AM - 9 PM delivery)</option>
+              <option value="Office">Office (10 AM - 6 PM delivery)</option>
             </select>
           </div>
-        </div>
 
-        <div className="addressBtn" onClick={handleSubmit}>
-          {isEditMode ? "Update Address" : "Submit"}
-        </div>
-      </div>
-    </>
+          <button
+            type="button"
+            className="address-form-submit-btn"
+            onClick={handleSubmit}
+            disabled={loading}
+          >
+            {loading
+              ? "Processing..."
+              : isEditMode
+              ? "Update Address"
+              : "Save Address"}
+          </button>
+        </form>
+      )}
+
+      <Toaster
+        position="top-right"
+        toastOptions={{ duration: 1500 }}
+        reverseOrder={false}
+      />
+    </div>
   );
 };
 

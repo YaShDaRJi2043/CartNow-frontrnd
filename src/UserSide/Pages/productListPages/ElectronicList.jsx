@@ -1,10 +1,10 @@
 import React from "react";
-import ProdctList from "../../Components/prodctList/ProdctList";
+import ProductList from "../../Components/prodctList/ProductList";
 
 const ElectronicList = () => {
   return (
     <>
-      <ProdctList path="/getelectronics" />
+      <ProductList path="/user/products/electronicProduct/get" />
     </>
   );
 };

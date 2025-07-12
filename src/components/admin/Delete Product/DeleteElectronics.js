@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 
 const DeleteElectronics = () => {
   const [come, setCome] = useState([]);
@@ -31,7 +31,7 @@ const DeleteElectronics = () => {
       console.log("error");
     } else {
       getProduct();
-      toast.success("Product Delete successfully")
+      toast.success("Product Delete successfully");
     }
   };
 
@@ -102,17 +102,7 @@ const DeleteElectronics = () => {
           );
         })}
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

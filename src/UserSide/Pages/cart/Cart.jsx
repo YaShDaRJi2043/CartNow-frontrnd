@@ -1,135 +1,164 @@
-import { Divider } from "@mui/material";
-import "./Cart.css";
-import React, { useContext, useState } from "react";
-import Total from "./Total";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
+import { Divider } from "@mui/material";
+
+import "./Cart.css";
+import Total from "../../Components/total/Total";
 import BASE_URL from "../../../services/Helper";
-import { LoginDataContext } from "../../Components/context/ContextProvider";
+import { setCartCount } from "../../../store/features/cartSlice";
 
 const Cart = () => {
-  const { setLoginDataCalled } = useContext(LoginDataContext);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user, userToken } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const [cartProductData, setCartProductData] = useState("");
-
-  const Token = localStorage.getItem("usertoken");
-
-  const CartData = async () => {
-    const getCartData = await BASE_URL.get("/productDisplayOfCart", {
-      headers: {
-        Authorization: Token,
-      },
-    });
-    setCartProductData((await getCartData)?.data);
-  };
-
-  const removeData = async (id) => {
+  const fetchCartData = async () => {
     try {
-      await BASE_URL.delete(`/removeProductCart?id=${id}`, {
+      setLoading(true);
+      const response = await BASE_URL.get(`/user/cart/get/${user._id}`, {
         headers: {
-          Authorization: Token,
+          Authorization: userToken,
         },
       });
-      setLoginDataCalled(true);
-      toast.success("Product Remove From Your Cart");
-      CartData();
+      const items = response?.data;
+      setCartItems(items);
+
+      dispatch(setCartCount(items.length));
     } catch (error) {
-      toast.warn(error?.response?.data?.message);
+      toast.error("Failed to load cart items");
+    } finally {
+      setLoading(false);
     }
   };
 
-  useState(() => {
-    CartData();
+  const removeItem = async (id) => {
+    try {
+      await BASE_URL.delete(`/user/cart/delete/${id}`, {
+        headers: {
+          Authorization: userToken,
+        },
+      });
+      toast.success("Product removed from your cart");
+      fetchCartData();
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchCartData();
   }, []);
-  return (
-    <>
-      <div>
-        {cartProductData.length ? (
-          <div className="CartMainDiv">
-            <h3>Shopping Cart</h3>
-            <Divider className="mt-4" />
-            <div>
-              {cartProductData.map((e, ind) => {
-                return (
-                  <>
-                    <div className="cartProductDetails">
-                      <div className="cartProductImgDiv">
-                        <img
-                          src={e.url}
-                          alt="imgitem"
-                          className="cartProductImg"
-                        />
-                      </div>
 
-                      <div className="productDetails">
-                        <div className="cartLongTitle">{e.longTitle}</div>
-                        <p className="cartShortTitle">{e.shortTitle}</p>
-
-                        <p className="dispatchedTxt">
-                          Usually dispatched in 3 To 4 days.
-                        </p>
-
-                        <p className="ShippingTxt">
-                          Eligible for{" "}
-                          <span className="freeShippingTxt">FREE</span> Shipping
-                        </p>
-
-                        <button
-                          onClick={() => removeData(e._id)}
-                          className="cartProductDltBtn"
-                        >
-                          Delete
-                        </button>
-                      </div>
-
-                      <div className="productPrice">₹{e.mrp}.00</div>
-                    </div>
-                    <Divider />
-                  </>
-                );
-              })}
-            </div>
-
-            <div
-              style={{ textAlign: "end", fontSize: "19px", margin: "20px 0px" }}
-            >
-              <Total item={cartProductData} />
-            </div>
-            <div style={{ textAlign: "end" }}>
-              <NavLink to="/buy">
-                <button className="buy_button">Proceed to Buy</button>
-              </NavLink>
-            </div>
-          </div>
-        ) : (
-          <div style={{ padding: "150px 0px 100px", textAlign: "center" }}>
-            <div>
-              <img
-                src="Empty_cart.svg"
-                alt="cart img"
-                className="emptyCartImg"
-              />
-            </div>
-            <div>
-              <h1>Your Cart is empty</h1>
-            </div>
-            <NavLink to="/">Add Your Iteams</NavLink>
-          </div>
-        )}
+  // Skeleton Loader Component
+  const CartItemSkeleton = () => (
+    <div className="cart-item-skeleton">
+      <div className="cart-item-img-skeleton"></div>
+      <div className="cart-item-details-skeleton">
+        <div className="skeleton-line long"></div>
+        <div className="skeleton-line medium"></div>
+        <div className="skeleton-line short"></div>
+        <div className="skeleton-line medium"></div>
+        <div className="skeleton-btn"></div>
       </div>
+      <div className="cart-item-price-skeleton"></div>
+    </div>
+  );
 
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
+  return (
+    <div className="cart-container">
+      {loading ? (
+        <div className="cart-content">
+          <h3 className="cart-title">Shopping Cart</h3>
+          <Divider className="cart-divider" />
+          {Array(3)
+            .fill(0)
+            .map((_, index) => (
+              <React.Fragment key={index}>
+                <CartItemSkeleton />
+                <Divider className="cart-divider" />
+              </React.Fragment>
+            ))}
+          <div className="cart-total-skeleton"></div>
+        </div>
+      ) : cartItems.length ? (
+        <div className="cart-content">
+          <h3 className="cart-title">Shopping Cart</h3>
+          <Divider className="cart-divider" />
+          <div className="cart-items-list">
+            {cartItems.map((item) => (
+              <React.Fragment key={item?.productDetails._id}>
+                <div className="cart-item">
+                  <div className="cart-item-image-container">
+                    <img
+                      src={item?.productDetails.url}
+                      alt={item?.productDetails.shortTitle}
+                      className="cart-item-image"
+                    />
+                  </div>
+                  <div className="cart-item-details">
+                    <h4 className="cart-item-title">
+                      {item?.productDetails.longTitle}
+                    </h4>
+                    <p className="cart-item-subtitle">
+                      {item?.productDetails.shortTitle}
+                    </p>
+                    <p className="cart-item-dispatch">
+                      Usually dispatched in 3 to 4 days
+                    </p>
+                    <p className="cart-item-shipping">
+                      Eligible for <span className="free-shipping">FREE</span>{" "}
+                      Shipping
+                    </p>
+                    <button
+                      onClick={() => removeItem(item._id)}
+                      className="cart-item-remove-btn"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="cart-item-price">
+                    ₹{item?.productDetails.mrp}.00
+                  </div>
+                </div>
+                <Divider className="cart-divider" />
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="cart-total-section">
+            <Total item={cartItems} />
+          </div>
+          <div className="cart-checkout-section">
+            <NavLink to="/buy">
+              <button className="cart-checkout-btn">Proceed to Buy</button>
+            </NavLink>
+          </div>
+        </div>
+      ) : (
+        <div className="cart-empty-state">
+          <div className="empty-cart-image-container">
+            <img
+              src="Empty_cart.svg"
+              alt="Empty cart"
+              className="empty-cart-image"
+            />
+          </div>
+          <h1 className="empty-cart-title">Your Cart is empty</h1>
+          <NavLink to="/" className="empty-cart-cta">
+            Shop Now
+          </NavLink>
+        </div>
+      )}
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 1500,
+        }}
       />
-    </>
+    </div>
   );
 };
 

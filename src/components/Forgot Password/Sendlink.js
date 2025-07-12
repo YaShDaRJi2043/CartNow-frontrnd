@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Sendlink.css";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 
 const Sendlink = () => {
   const [email, setEmail] = useState({
@@ -18,7 +18,7 @@ const Sendlink = () => {
     const { send_mail } = email;
 
     if (send_mail === "") {
-      toast.warn("Enter email");
+      toast.error("Enter email");
     } else {
       const res = await fetch("/passlinksend", {
         method: "POST",
@@ -29,7 +29,7 @@ const Sendlink = () => {
       });
 
       if (res.status === 404) {
-        toast.warn("Enter valid email");
+        toast.error("Enter valid email");
       } else {
         toast.success("Password reset link send");
       }
@@ -59,17 +59,7 @@ const Sendlink = () => {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

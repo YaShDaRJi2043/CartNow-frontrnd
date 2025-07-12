@@ -7,101 +7,103 @@ import DrawerComponent from "../drawer/DrawerComponent";
 import BASE_URL from "../../../../services/Helper";
 
 const SecondHeader = () => {
-  const PageNavigate = useNavigate();
+  const navigate = useNavigate();
+  const [allProducts, setAllProducts] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
-  const [allProductData, setAllProductData] = useState("");
-  const [text, setText] = useState("");
-  const [liopen] = useState("");
-
-  const product = async () => {
-    const getAllProduct = await BASE_URL.get("/allProducts");
-    setAllProductData((await getAllProduct)?.data);
+  const fetchProducts = async () => {
+    try {
+      const response = await BASE_URL.get("/user/products/allProducts/get");
+      setAllProducts(response?.data || []);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    }
   };
 
   useEffect(() => {
-    product();
+    fetchProducts();
   }, []);
 
   return (
-    <>
-      <div className="secondNavDiv">
-        <div className="Categories">
-          <DrawerComponent />
-        </div>
-
-        <div
-          onClick={() => PageNavigate("/mobile")}
-          className="Categories responsiveRev"
-        >
-          Mobiles
-        </div>
-
-        <div
-          onClick={() => PageNavigate("/electronic")}
-          className="Categories responsiveRev"
-        >
-          Electronics
-        </div>
-
-        <div
-          onClick={() => PageNavigate("/men")}
-          className="Categories responsiveRev"
-        >
-          Men's Fashion
-        </div>
-
-        <div
-          onClick={() => PageNavigate("/women")}
-          className="Categories responsiveRev"
-        >
-          Women's Fashion
-        </div>
-
-        <div
-          onClick={() => PageNavigate("/homekitchen")}
-          className="Categories responsiveRev"
-        >
-          Home, Kitchen
-        </div>
-
-        {/* search field */}
-        <div style={{ display: "flex" }}>
-          <input
-            type="text"
-            placeholder="Search Your Product"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="search_input"
-          />
-
-          <div className="searchicon">
-            <SearchIcon />
-          </div>
-
-          {text && (
-            <list className="searchLists" hidden={liopen}>
-              {allProductData
-                .filter((product) =>
-                  product.shortTitle.toLowerCase().includes(text.toLowerCase())
-                )
-                .map((product) => (
-                  <div
-                    onClick={() => {
-                      setText("");
-                      PageNavigate(`/productDetail/${product._id}`);
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <ListItem className="searchListIteam">
-                      {product.shortTitle}
-                    </ListItem>
-                  </div>
-                ))}
-            </list>
-          )}
-        </div>
+    <div className="second-header">
+      {/* Categories / Drawer */}
+      <div className="second-header__category">
+        <DrawerComponent />
       </div>
-    </>
+
+      <div
+        onClick={() => navigate("/mobile")}
+        className="second-header__category second-header__link"
+      >
+        Mobiles
+      </div>
+
+      <div
+        onClick={() => navigate("/electronic")}
+        className="second-header__category second-header__link"
+      >
+        Electronics
+      </div>
+
+      <div
+        onClick={() => navigate("/men")}
+        className="second-header__category second-header__link"
+      >
+        Men's Fashion
+      </div>
+
+      <div
+        onClick={() => navigate("/women")}
+        className="second-header__category second-header__link"
+      >
+        Women's Fashion
+      </div>
+
+      <div
+        onClick={() => navigate("/homekitchen")}
+        className="second-header__category second-header__link"
+      >
+        Home, Kitchen
+      </div>
+
+      {/* Search Field */}
+      <div className="second-header__search">
+        <input
+          type="text"
+          placeholder="Search Your Product"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="second-header__search-input"
+        />
+
+        <div className="second-header__search-icon">
+          <SearchIcon />
+        </div>
+
+        {searchText && (
+          <ul className="second-header__search-list">
+            {allProducts
+              .filter((product) =>
+                product.shortTitle
+                  .toLowerCase()
+                  .includes(searchText.toLowerCase())
+              )
+              .map((product) => (
+                <li
+                  key={product._id}
+                  className="second-header__search-item"
+                  onClick={() => {
+                    setSearchText("");
+                    navigate(`/productDetail/${product._id}`);
+                  }}
+                >
+                  <ListItem>{product.shortTitle}</ListItem>
+                </li>
+              ))}
+          </ul>
+        )}
+      </div>
+    </div>
   );
 };
 

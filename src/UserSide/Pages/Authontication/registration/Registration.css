@@ -1,143 +1,156 @@
-.registrationMainDiv {
+.registration-wrapper {
   height: 100vh;
-  align-content: center;
-  padding-top: 80px;
-}
-
-.registrationContainer {
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 0px 20px;
+  background-color: #f2f6fa;
 }
 
-.registrationLeftDiv {
+.registration-container {
+  display: flex;
+  background-color: #ccd8e3;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 950px;
+  min-height: 500px;
+}
+
+.registration-left {
+  flex: 1;
   background-color: #808c96;
-  align-content: center;
-  padding: 0 40px;
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.welcomeTxt {
-  font-size: 26px;
-  font-weight: 500;
+.registration-left-title {
+  font-size: 28px;
+  font-weight: 600;
   color: #0d273e;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-align: center;
-  cursor: default;
+  margin-bottom: 25px;
+  font-family: "Verdana", sans-serif;
 }
 
-.loginBtnDiv {
-  text-align: center;
-}
-
-.loginBtn {
+.registration-login-link {
   text-decoration: none;
   color: black;
   background-color: white;
-  padding: 10px 40px;
-  border-radius: 22px;
-}
-
-.registrationRightDiv {
-  background-color: #ccd8e3;
-  padding: 60px 80px;
-}
-
-.createTxt {
-  font-size: 26px;
+  padding: 12px 32px;
+  border-radius: 25px;
   font-weight: 500;
-  text-align: center;
-  color: #0d273ec2;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  margin-bottom: 10px;
-  cursor: default;
+  font-size: 16px;
+  transition: background-color 0.3s;
 }
 
-.registrationInputFieldDiv {
-  text-align: center;
+.registration-login-link:hover {
+  background-color: #e2e8f0;
+}
+
+.registration-right {
+  flex: 1.5;
+  background-color: #ccd8e3;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.registration-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0d273e;
+  margin-bottom: 25px;
+  font-family: "Verdana", sans-serif;
+}
+
+.registration-form-group {
   position: relative;
+  margin-bottom: 20px;
   width: 100%;
+  max-width: 320px;
 }
 
-.registrationInputField {
+.registration-input {
+  width: 100%;
+  height: 45px;
+  padding: 0 15px;
+  padding-right: 45px;
   border: none;
   outline: none;
-  border-radius: 15px;
-  padding-left: 15px;
-  margin: 3px 0;
-  height: 35px;
-  width: 300px;
-
-  &:focus-visible {
-    background-color: #a9c8e6;
-  }
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: "Verdana", sans-serif;
 }
 
-.registrationeyeIcon {
+.registration-input:focus {
+  background-color: #a9c8e6;
+}
+
+.registration-eye-icon {
   position: absolute;
   top: 50%;
-  left: 260px;
+  right: 12px;
   transform: translateY(-50%);
   color: gray;
   cursor: pointer;
 }
 
-.registrationBtnDiv {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.registrationBtn {
+.registration-submit-btn {
+  margin-top: 25px;
   background-color: #3d4348;
   color: white;
-  padding: 10px 50px;
-  border-radius: 22px;
+  padding: 12px 45px;
+  border-radius: 25px;
   cursor: pointer;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-
-  &:active {
-    box-shadow: none;
-    transform: scale(0.9);
-  }
-
-  &:hover {
-    background-color: #354553;
-  }
+  font-weight: 500;
+  font-size: 16px;
+  font-family: "Verdana", sans-serif;
+  transition: all 0.3s;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-@media (max-width: 737px) {
-  .registrationMainDiv {
-    padding-top: 0;
+.registration-submit-btn:hover {
+  background-color: #354553;
+}
+
+.registration-submit-btn:active {
+  transform: scale(0.95);
+  box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .registration-wrapper {
+    height: 80vh;
+    padding: 20px;
   }
 
-  .registrationRightDiv {
+  .registration-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .registration-left,
+  .registration-right {
     padding: 30px 20px;
   }
 
-  .createTxt {
-    font-size: 18px;
+  .registration-left-title,
+  .registration-title {
+    font-size: 24px;
   }
 
-  .registrationInputField {
-    height: 35px;
-    width: 200px;
+  .registration-login-link {
+    padding: 10px 25px;
+    font-size: 15px;
   }
 
-  .registrationeyeIcon {
-    left: 160px;
-  }
-
-  .registrationLeftDiv {
-    padding: 0 10px;
-  }
-
-  .welcomeTxt {
-    font-size: 18px;
-  }
-
-  .loginBtn {
-    padding: 10px;
-    font-size: 16px;
+  .registration-form-group {
+    max-width: 280px;
   }
 }

@@ -1,92 +1,116 @@
-.secondNavDiv {
+.second-header {
   display: flex;
   justify-content: space-around;
-  background-color: #73716f;
   align-items: center;
+  background-color: #73716f;
   height: 44px;
+  position: relative;
+  padding: 0 20px;
 }
 
-.CategoriesDiv {
-  display: flex;
-}
-
-.Categories {
+.second-header__category {
   color: white;
   cursor: pointer;
-  height: 35px;
-  align-content: center;
   padding: 0 6px;
+  height: 35px;
+  display: flex;
+  align-items: center;
   border-radius: 5px;
-
-  &:hover {
-    border: 1px solid white;
-  }
+  transition: all 0.3s;
 }
 
-.search_input {
+.second-header__category:hover {
+  border: 1px solid white;
+}
+
+.second-header__link {
+  font-size: 16px;
+}
+
+.second-header__search {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.second-header__search-input {
   height: 36px;
   width: 280px;
   padding-left: 10px;
   font-size: 16px;
   border: none;
+  outline: none;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  outline: none;
 }
 
-.searchicon {
+.second-header__search-icon {
   background-color: #d9c3c1;
   height: 36px;
-  align-content: center;
+  display: flex;
+  align-items: center;
   padding: 0 10px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   cursor: pointer;
 }
 
-.searchLists {
-  background-color: rgba(233, 233, 233, 0.889);
+.second-header__search-list {
+  background-color: rgba(233, 233, 233, 0.9);
   width: 325px;
+  max-height: 300px;
+  overflow-y: auto;
   border-radius: 5px;
   position: absolute;
-  top: 102px;
-  height: 300px;
-  overflow: scroll;
-  border-radius: 5px;
-  scrollbar-width: none;
+  top: 42px;
+  z-index: 10;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
-.searchListIteam:hover {
+.second-header__search-item {
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: background-color 0.2s;
+}
+
+.second-header__search-item:hover {
   background-color: white;
 }
 
+/* Hide scrollbar */
+.second-header__search-list::-webkit-scrollbar {
+  display: none;
+}
+
 @media (max-width: 950px) {
-  .Categories {
+  .second-header__link {
     font-size: 14px;
   }
 
-  .search_input {
-    height: 26px;
-    width: 180px;
+  .second-header__search-input {
+    height: 30px;
+    width: 200px;
   }
 
-  .searchicon {
-    height: 26px;
-    padding: 0 4px;
+  .second-header__search-icon {
+    height: 30px;
+    padding: 0 8px;
   }
 
-  .searchLists {
-    width: 215px;
+  .second-header__search-list {
+    width: 240px;
   }
 }
 
 @media (max-width: 780px) {
-  .secondNavDiv {
+  .second-header {
     justify-content: space-between;
-    padding: 0 40px;
+    padding: 0 20px;
   }
 
-  .responsiveRev {
+  .second-header__link {
     display: none;
   }
 }

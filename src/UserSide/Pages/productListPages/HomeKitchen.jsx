@@ -1,10 +1,10 @@
 import React from "react";
-import ProdctList from "../../Components/prodctList/ProdctList";
+import ProductList from "../../Components/prodctList/ProductList";
 
 const HomeKitchen = () => {
   return (
     <>
-      <ProdctList path="/gethomekitchens" />
+      <ProductList path="/user/products/homeKitchenProduct/get" />
     </>
   );
 };

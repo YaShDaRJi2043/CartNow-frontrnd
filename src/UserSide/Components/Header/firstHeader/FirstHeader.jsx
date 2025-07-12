@@ -1,125 +1,101 @@
-import React, { useContext, useEffect } from "react";
-import "./FirstHeader.css";
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import Badge from "@mui/material/Badge";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import toast, { Toaster } from "react-hot-toast";
+
+import "./FirstHeader.css";
 import BASE_URL from "../../../../services/Helper";
-import { useState } from "react";
-import { LoginDataContext } from "../../context/ContextProvider";
+import { setCartCount } from "../../../../store/features/cartSlice";
 
 const FirstHeader = () => {
-  const { loginDataCalled, setLoginDataCalled } = useContext(LoginDataContext);
-  console.log(loginDataCalled);
+  const navigate = useNavigate();
+  const dispatch = useDispatch(); // Initialize dispatch
+  const { user, userToken } = useSelector((state) => state.auth);
+  const { cartCount } = useSelector((state) => state.cart); // Get cart count from Redux state
 
-  const PageNavigate = useNavigate();
-  const [userData, setUserData] = useState(null);
-  const [userAddress, setUserAddress] = useState(null);
-  const Token = localStorage.getItem("usertoken");
-
-  const AddressNavigate = () => {
-    Token ? PageNavigate("/address") : PageNavigate("/signin");
-  };
-
-  const CartNavigate = () => {
-    Token ? PageNavigate("/cart") : PageNavigate("/signin");
-  };
-
-  const getUserDetail = async () => {
+  // Fetch Cart Data and Update Redux
+  const fetchCartData = async () => {
     try {
-      const getUserData = await BASE_URL.get("/getCurrentLoginUserDetail", {
-        headers: {
-          Authorization: Token,
-        },
-      });
-      setUserData(getUserData?.data);
-      setLoginDataCalled(false);
-    } catch {
-      setUserData(null);
+      if (user && user._id) {
+        const response = await BASE_URL.get(`/user/cart/get/${user._id}`, {
+          headers: {
+            Authorization: userToken,
+          },
+        });
+        // Set the cart count in Redux
+        dispatch(setCartCount(response?.data?.length || 0)); // Assuming response contains the cart items
+      }
+    } catch (error) {
+      toast.error("Failed to load cart items");
     }
-  };
-
-  const getAddressDetail = async () => {
-    const USER_ID = localStorage.getItem("userId");
-    const getAddress = await BASE_URL.get(`/displayUserAddress?id=${USER_ID}`);
-    setUserAddress(getAddress?.data?.displayUserAddress[0]);
   };
 
   useEffect(() => {
-    if (loginDataCalled === true) {
-      getUserDetail();
-      getAddressDetail();
+    if (user) {
+      fetchCartData();
     }
-  });
+  }, [user, userToken, dispatch]);
 
   return (
-    <>
-      <div className="firstNavDiv">
-        {/* ICON */}
-        <NavLink to="/" id="borderForFirstHeaderCompo">
-          <img src="/main_logo.png" alt="Logo" className="MainLogo" />
-        </NavLink>
+    <div className="first-header">
+      {/* Logo */}
+      <NavLink to="/" className="header-link">
+        <img src="/main_logo.png" alt="Logo" className="header-logo" />
+      </NavLink>
 
-        {/* address */}
-        <div
-          className="AddressDiv"
-          id="borderForFirstHeaderCompo"
-          onClick={AddressNavigate}
-        >
-          <div className="AddressLogo">
-            <RoomOutlinedIcon />
-          </div>
+      {/* Address */}
+      <div
+        className="header-link header-address"
+        onClick={() => navigate("/address")}
+      >
+        <div className="header-address-icon">
+          <RoomOutlinedIcon />
+        </div>
+        <div>
           <div>
-            <div>
-              {userData
-                ? "Deliver to " +
-                  userData.name[0]?.toUpperCase() +
-                  userData.name.substring(1)
-                : "Hello"}
-            </div>
-            <div>
-              {userAddress
-                ? userAddress?.city + " " + userAddress?.pin
-                : "Add Your Address"}
-            </div>
+            {user
+              ? `Deliver to ${
+                  user.name[0]?.toUpperCase() + user.name.substring(1)
+                }`
+              : "Hello"}
           </div>
-        </div>
-
-        {/* signin */}
-        <div
-          onClick={() => (userData ? null : PageNavigate("/signin"))}
-          id="borderForFirstHeaderCompo"
-          className="signInDiv"
-        >
-          {userData ? (
-            <>
-              <div>
-                Hello,{" "}
-                {userData?.name[0].toUpperCase() + userData?.name.substring(1)}
-              </div>
-            </>
-          ) : (
-            <>
-              <div>Hello, Sign in</div>
-            </>
-          )}
-        </div>
-
-        {/* cart */}
-        <div
-          onClick={CartNavigate}
-          id="borderForFirstHeaderCompo"
-          className="cartDiv"
-        >
-          <span>
-            <Badge badgeContent={userData?.carts?.length} color="primary">
-              <ShoppingCartIcon />
-            </Badge>
-          </span>
-          <span className="CartTxt">Cart</span>
+          <div>Add Your Address</div>
         </div>
       </div>
-    </>
+
+      {/* Signin */}
+      <div
+        className="header-link header-signin"
+        onClick={() => {
+          if (!user) navigate("/signin");
+        }}
+      >
+        {user ? (
+          <div>
+            Hello, {user.name[0]?.toUpperCase() + user.name.substring(1)}
+          </div>
+        ) : (
+          <div>Hello, Sign in</div>
+        )}
+      </div>
+
+      {/* Cart */}
+      <div
+        className="header-link header-cart"
+        onClick={() => navigate("/cart")}
+      >
+        <Badge badgeContent={cartCount || 0} color="primary">
+          <ShoppingCartIcon />
+        </Badge>
+        <span className="header-cart-text">Cart</span>
+      </div>
+
+      {/* ToastContainer */}
+      <Toaster position="top-right" reverseOrder={false} />
+    </div>
   );
 };
 

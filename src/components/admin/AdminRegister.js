@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const AdminRegister = () => {
@@ -25,23 +24,23 @@ const AdminRegister = () => {
     const { name, email, phone, password, compassword } = data;
 
     if (name == "") {
-      toast.warn("Enter name");
+      toast.error("Enter name");
     } else if (email == "") {
-      toast.warn("Enter email");
+      toast.error("Enter email");
     } else if (!email.includes("@")) {
-      toast.warn("Enter valid email");
+      toast.error("Enter valid email");
     } else if (phone == "") {
-      toast.warn("Enter phone number");
+      toast.error("Enter phone number");
     } else if (phone.length < 10) {
-      toast.warn("Enter valid phone number");
+      toast.error("Enter valid phone number");
     } else if (password == "") {
-      toast.warn("Enter password");
+      toast.error("Enter password");
     } else if (password.length < 6) {
-      toast.warn("Enter atleast 6 letter");
+      toast.error("Enter atleast 6 letter");
     } else if (compassword == "") {
-      toast.warn("Enter compassword");
+      toast.error("Enter compassword");
     } else if (compassword != password) {
-      toast.warn("password doesn't match");
+      toast.error("password doesn't match");
     } else {
       const res = await fetch("/Adminregister", {
         method: "POST",
@@ -214,17 +213,7 @@ const AdminRegister = () => {
           </div>
         </div>
       </body>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

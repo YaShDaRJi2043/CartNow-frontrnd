@@ -50,21 +50,21 @@ const Address = () => {
 
     const { email, pin, house, area, landmark, city, state, time } = names;
     if (email === "") {
-      toast.warn("Enter email");
+      toast.error("Enter email");
     } else if (pin === "") {
-      toast.warn("Enter pincode");
+      toast.error("Enter pincode");
     } else if (house === "") {
-      toast.warn("Enter Flat, House no., Building, Company, Apartment");
+      toast.error("Enter Flat, House no., Building, Company, Apartment");
     } else if (area === "") {
-      toast.warn("Enter Area, Street, Sector, Village");
+      toast.error("Enter Area, Street, Sector, Village");
     } else if (landmark === "") {
-      toast.warn("Enter landmark");
+      toast.error("Enter landmark");
     } else if (city === "") {
-      toast.warn("Enter city");
+      toast.error("Enter city");
     } else if (state === "") {
-      toast.warn("Please select the state");
+      toast.error("Please select the state");
     } else if (time === "") {
-      toast.warn("Please select the time");
+      toast.error("Please select the time");
     } else {
       const res = await fetch("/address", {
         method: "POST",

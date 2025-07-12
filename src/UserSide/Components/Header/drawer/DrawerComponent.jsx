@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import "./DrawerComponent.css";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -9,109 +9,78 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import { NavLink, useNavigate } from "react-router-dom";
 import BASE_URL from "../../../../services/Helper";
-import { LoginDataContext } from "../../context/ContextProvider";
+import { useSelector, useDispatch } from "react-redux";
+import { userLogout } from "../../../../store/features/authSlice";
+import { resetCart } from "../../../../store/features/cartSlice";
 
 const DrawerComponent = () => {
-  const { loginDataCalled, setLoginDataCalled } = useContext(LoginDataContext);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, userToken } = useSelector((state) => state.auth);
 
-  const PageNavigate = useNavigate();
-
-  const [userData, setUserData] = useState(null);
-
-  const Token = localStorage.getItem("usertoken");
-
-  const getUserDetail = async () => {
-    try {
-      const getUserData = await BASE_URL.get("/getCurrentLoginUserDetail", {
-        headers: {
-          Authorization: Token,
-        },
-      });
-      setUserData((await getUserData)?.data);
-      loginDataCalled(false);
-    } catch {
-      setUserData(null);
-    }
-  };
+  const [drawerState, setDrawerState] = React.useState({});
 
   const logout = async () => {
-    await BASE_URL.get("/logout", {
-      headers: {
-        Authorization: Token,
-      },
-    }).then(localStorage.clear(), PageNavigate("/"), setLoginDataCalled(true));
-  };
-
-  useEffect(() => {
-    if (loginDataCalled === true) {
-      getUserDetail();
+    try {
+      await BASE_URL.get("/user/auth/logout", {
+        headers: { Authorization: userToken },
+      });
+      dispatch(userLogout());
+      dispatch(resetCart());
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed", error);
     }
-  });
-
-  const [state, setState] = useState({});
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
-    setState({ ...state, [anchor]: open });
+    setDrawerState({ ...drawerState, [anchor]: open });
   };
 
-  const list = (anchor) => (
+  const drawerContent = (anchor) => (
     <Box
       width="360px"
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
     >
-      <div className="drawerHeaderDiv">
-        <div>
-          {userData ? (
-            <Avatar className="avatarIcon">
-              {userData.name[0].toUpperCase()}
-            </Avatar>
-          ) : (
-            <Avatar className="avatarIcon"></Avatar>
-          )}
-        </div>
-        <div className="HeaderTxt">
-          {userData ? (
-            <>
-              <div>Hello, {userData.name} </div>
-            </>
-          ) : (
-            <>
-              <div>Hello, Sign in</div>
-            </>
-          )}
+      <div className="drawer-header">
+        <Avatar className="drawer-avatar">
+          {user ? user.name[0].toUpperCase() : ""}
+        </Avatar>
+        <div className="drawer-header-text">
+          {user ? `Hello, ${user.name}` : "Hello, Sign in"}
         </div>
       </div>
 
       <List>
-        <div className="categoriesHeading">Shop By Category</div>
+        <div className="drawer-section-title">Shop By Category</div>
       </List>
 
-      <NavLink to="/mobile" className="drawerCategories">
+      <NavLink to="/mobile" className="drawer-link">
         <List>
           <ListItemButton>Mobiles</ListItemButton>
         </List>
       </NavLink>
 
-      <NavLink to="/electronic" className="drawerCategories">
+      <NavLink to="/electronic" className="drawer-link">
         <List>
           <ListItemButton>Electronics</ListItemButton>
         </List>
       </NavLink>
 
-      <NavLink to="/men" className="drawerCategories">
+      <NavLink to="/men" className="drawer-link">
         <List>
           <ListItemButton>Men's Fashion</ListItemButton>
         </List>
       </NavLink>
 
-      <NavLink to="/women" className="drawerCategories">
+      <NavLink to="/women" className="drawer-link">
         <List>
-          <ListItemButton>women's Fashion</ListItemButton>
+          <ListItemButton>Women's Fashion</ListItemButton>
         </List>
       </NavLink>
 
-      <NavLink to="/homekitchen" className="drawerCategories">
+      <NavLink to="/homekitchen" className="drawer-link">
         <List>
           <ListItemButton>Home, Kitchen</ListItemButton>
         </List>
@@ -120,16 +89,16 @@ const DrawerComponent = () => {
       <Divider />
 
       <List>
-        <div className="categoriesHeading">Help & Setting</div>
+        <div className="drawer-section-title">Help & Setting</div>
       </List>
 
-      <NavLink to="" className="drawerCategories">
+      <NavLink to="/orders" className="drawer-link">
         <List>
-          <ListItemButton>Your Order</ListItemButton>
+          <ListItemButton>Your Orders</ListItemButton>
         </List>
       </NavLink>
 
-      <NavLink to="/feedback" className="drawerCategories">
+      <NavLink to="/feedback" className="drawer-link">
         <List>
           <ListItemButton>Feedback</ListItemButton>
         </List>
@@ -137,13 +106,13 @@ const DrawerComponent = () => {
 
       <List>
         <ListItemButton>
-          {Token ? (
-            <button className="drawerSignInSignOutBtn" onClick={logout}>
+          {userToken ? (
+            <button className="drawer-sign-btn" onClick={logout}>
               Sign Out
             </button>
           ) : (
             <NavLink to="/signin">
-              <button className="drawerSignInSignOutBtn">Sign in</button>
+              <button className="drawer-sign-btn">Sign In</button>
             </NavLink>
           )}
         </ListItemButton>
@@ -152,23 +121,24 @@ const DrawerComponent = () => {
   );
 
   return (
-    <>
-      <div>
-        {["left"].map((anchor) => (
-          <>
-            <div onClick={toggleDrawer(anchor, true)} className="DrawerBtnDiv">
-              <div className="menuIconDiv">
-                <MenuIcon />
-              </div>
-              <div>All</div>
+    <div>
+      {["left"].map((anchor) => (
+        <React.Fragment key={anchor}>
+          <div onClick={toggleDrawer(anchor, true)} className="drawer-button">
+            <div className="menu-icon">
+              <MenuIcon />
             </div>
-            <Drawer open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-              {list(anchor)}
-            </Drawer>
-          </>
-        ))}
-      </div>
-    </>
+            <div>All</div>
+          </div>
+          <Drawer
+            open={drawerState[anchor]}
+            onClose={toggleDrawer(anchor, false)}
+          >
+            {drawerContent(anchor)}
+          </Drawer>
+        </React.Fragment>
+      ))}
+    </div>
   );
 };
 

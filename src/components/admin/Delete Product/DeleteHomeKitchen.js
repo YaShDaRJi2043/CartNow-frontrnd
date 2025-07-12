@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 
 const DeleteHomeKitchen = () => {
   const [come, setCome] = useState([]);
@@ -97,6 +97,7 @@ const DeleteHomeKitchen = () => {
           );
         })}
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

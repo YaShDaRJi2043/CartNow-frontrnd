@@ -1,16 +1,17 @@
-import React, { useContext, useState } from "react";
-import "./Login.css";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import BASE_URL from "../../../../services/Helper";
-import { toast, ToastContainer } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { LoginDataContext } from "../../../Components/context/ContextProvider";
+import { useDispatch } from "react-redux";
+
+import "./Login.css";
+import BASE_URL from "../../../../services/Helper";
+import { userLogin } from "../../../../store/features/authSlice";
 
 const Login = () => {
-  const { loginDataCalled, setLoginDataCalled } = useContext(LoginDataContext);
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [inputValue, setInputValue] = useState({
     email: "",
@@ -23,7 +24,7 @@ const Login = () => {
     setInputValue({ ...inputValue, [name]: value });
   };
 
-  const onClickShowPassword = () => {
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
@@ -34,81 +35,67 @@ const Login = () => {
     loginData.append("email", email);
     loginData.append("password", password);
 
-    await BASE_URL.post("/userLogin", loginData)
-      .then((res) => {
-        localStorage.setItem("usertoken", res?.data?.token);
-        localStorage.setItem("userId", res?.data?.user?._id);
-        setLoginDataCalled(true);
-        navigate("/");
-      })
-      .catch((err) => {
-        toast.warning(err?.response?.data?.message);
-      });
+    try {
+      const res = await BASE_URL.post("/user/auth/login", loginData);
+
+      dispatch(userLogin({ user: res.data.user, token: res.data.token }));
+      navigate("/");
+    } catch (err) {
+      toast.error(err?.response?.data?.message);
+    }
   };
 
   return (
     <>
-      <div className="LoginMainDiv">
-        <div className="LoginContainer">
-          <div className="LoginLeftDiv">
-            <div className="LoginTxt"> Login To Your Account</div>
-            <div className="LoginInputFieldDiv">
+      <div className="login-main">
+        <div className="login-container">
+          <div className="login-left">
+            <div className="login-title">Login To Your Account</div>
+
+            <div className="input-group">
               <input
                 type="text"
-                onChange={addValue}
                 name="email"
+                onChange={addValue}
                 placeholder="Email"
-                className="LoginInputField"
+                className="input-field"
               />
             </div>
 
-            <div className="LoginInputFieldDiv">
+            <div className="input-group">
               <input
-                type={showPassword === false ? "password" : "text"}
-                onChange={addValue}
+                type={showPassword ? "text" : "password"}
                 name="password"
+                onChange={addValue}
                 placeholder="Password"
-                className="LoginInputField pe-5"
+                className="input-field"
               />
-              <i className="LogineyeIcon" onClick={onClickShowPassword}>
+              <i className="eye-icon" onClick={togglePasswordVisibility}>
                 {showPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
               </i>
             </div>
 
-            <div className="forgotPasswordDiv">
-              <NavLink to="/sendlink" className="forgotPassword">
-                Forgot Password
-              </NavLink>
+            <div className="forgot-password">
+              <NavLink to="/sendlink">Forgot Password</NavLink>
             </div>
 
-            <div onClick={loginBtn} className="LoginBtnDiv">
-              <div className="LoginBtn">Log In</div>
+            <div className="login-button">
+              <div className="login-button-inner" onClick={loginBtn}>
+                Log In
+              </div>
             </div>
           </div>
 
-          <div className="LoginRightDiv">
-            <p className="newHereTxt">New Here?</p>
+          <div className="login-right">
+            <p className="new-here-text">New Here?</p>
 
-            <div className="RegisterBtnDiv">
-              <NavLink to="/register" className="RegisterBtn">
-                Create Account
-              </NavLink>
-            </div>
+            <NavLink to="/register" className="register-button">
+              Create Account
+            </NavLink>
           </div>
         </div>
       </div>
-
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

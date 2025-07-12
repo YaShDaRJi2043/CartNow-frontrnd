@@ -1,141 +1,141 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./Buynow.css";
-// import { LoginContext } from "../Context/ContextProvider";
-// import Divider from "@mui/material/Divider";
-// import { NavLink } from "react-router-dom";
-// import Total from "../../UserSide/Pages/cart/Total";
-// import { ToastContainer, toast } from "react-toastify";
+import { LoginContext } from "../Context/ContextProvider";
+import Divider from "@mui/material/Divider";
+import { NavLink } from "react-router-dom";
+import Total from "../../UserSide/Pages/cart/Total";
+import { ToastContainer, toast } from "react-toastify";
 
 const Buy = () => {
-  // const { account, setAccount } = useContext(LoginContext);
-  // const [showDiv, setShowDiv] = useState(false);
-  // const [email, setEmail] = useState([]);
-  // const [countdown, setCountdown] = useState(0);
-  // const [cart, setCart] = useState([]);
+  const { account, setAccount } = useContext(LoginContext);
+  const [showDiv, setShowDiv] = useState(false);
+  const [email, setEmail] = useState([]);
+  const [countdown, setCountdown] = useState(0);
+  const [cart, setCart] = useState([]);
 
-  // //get cart items
-  // const finalBuy = async () => {
-  //   const token = localStorage.getItem("usertoken");
-  //   const res = await fetch("/cartdetails", {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "applicaton/json",
-  //       Authorization: token,
-  //     },
-  //   });
+  //get cart items
+  const finalBuy = async () => {
+    const token = localStorage.getItem("usertoken");
+    const res = await fetch("/cartdetails", {
+      method: "GET",
+      headers: {
+        "Content-Type": "applicaton/json",
+        Authorization: token,
+      },
+    });
 
-  //   const data = await res.json();
-  //   console.log(data.carts);
+    const data = await res.json();
+    console.log(data.carts);
 
-  //   if (data.status === 404) {
-  //     console.log("Error");
-  //   } else {
-  //     setCart(data.carts);
-  //     setEmail(account.email);
-  //   }
-  // };
+    if (data.status === 404) {
+      console.log("Error");
+    } else {
+      setCart(data.carts);
+      setEmail(account.email);
+    }
+  };
 
-  // //remove cart items
-  // const removeData = async (id) => {
-  //   const token = localStorage.getItem("usertoken");
+  //remove cart items
+  const removeData = async (id) => {
+    const token = localStorage.getItem("usertoken");
 
-  //   const res = await fetch(`remove/${id}`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: token,
-  //     },
-  //   });
+    const res = await fetch(`remove/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
 
-  //   const data = await res.json();
-  //   console.log(data);
+    const data = await res.json();
+    console.log(data);
 
-  //   if (res.status === 404 || !data) {
-  //     console.log("error aai remove time pr");
-  //   } else {
-  //     finalBuy();
-  //     setAccount(data);
-  //   }
-  // };
+    if (res.status === 404 || !data) {
+      console.log("error aai remove time pr");
+    } else {
+      finalBuy();
+      setAccount(data);
+    }
+  };
 
-  // const sendm = async (e) => {
-  //   const token = localStorage.getItem("usertoken");
+  const sendm = async (e) => {
+    const token = localStorage.getItem("usertoken");
 
-  //   e.preventDefault();
+    e.preventDefault();
 
-  //   const res = await fetch("/buyitems", {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: token,
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       cart,
-  //     }),
-  //   });
-  //   const data1 = await res.json();
+    const res = await fetch("/buyitems", {
+      method: "POST",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        cart,
+      }),
+    });
+    const data1 = await res.json();
 
-  //   const res1 = await fetch("/buymail", {
-  //     method: "POST",
-  //     headers: {
-  //       Authorization: token,
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ email, cart }),
-  //   });
+    const res1 = await fetch("/buymail", {
+      method: "POST",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, cart }),
+    });
 
-  //   if (res1.status === 404) {
-  //     console.log("email send error");
-  //   } else {
-  //     toast.success("your order is confirm");
-  //   }
-  // };
+    if (res1.status === 404) {
+      console.log("email send error");
+    } else {
+      toast.success("your order is confirm");
+    }
+  };
 
-  // //radio button
-  // const handleRadioChange = (e) => {
-  //   setShowDiv(e.target.value === "yes");
-  // };
+  //radio button
+  const handleRadioChange = (e) => {
+    setShowDiv(e.target.value === "yes");
+  };
 
-  // //Date
-  // const today = new Date();
-  // const twoDaysAfter = new Date(today);
-  // twoDaysAfter.setDate(today.getDate() + 2);
+  //Date
+  const today = new Date();
+  const twoDaysAfter = new Date(today);
+  twoDaysAfter.setDate(today.getDate() + 2);
 
-  // const options = { day: "numeric", month: "long", year: "numeric" };
-  // const formattedDate = twoDaysAfter.toLocaleDateString("en-IN", options);
+  const options = { day: "numeric", month: "long", year: "numeric" };
+  const formattedDate = twoDaysAfter.toLocaleDateString("en-IN", options);
 
-  // //Timer
-  // const formatTime = (time) => {
-  //   const hours = Math.floor(time / 3600);
-  //   const minutes = Math.floor((time % 3600) / 60);
-  //   const seconds = time % 60;
-  //   return `${hours < 10 ? "0" : ""}${hours}:${
-  //     minutes < 10 ? "0" : ""
-  //   }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  // };
+  //Timer
+  const formatTime = (time) => {
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = time % 60;
+    return `${hours < 10 ? "0" : ""}${hours}:${
+      minutes < 10 ? "0" : ""
+    }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
 
-  // useEffect(() => {
-  //   const targetTime = new Date();
-  //   targetTime.setHours(24);
-  //   targetTime.setMinutes(0);
-  //   targetTime.setSeconds(0);
-  //   const remainingTime = targetTime.getTime() - new Date().getTime();
-  //   setCountdown(remainingTime / 1000);
-  //   const timer =
-  //     countdown > 0 &&
-  //     setInterval(() => {
-  //       setCountdown(countdown - 1);
-  //     }, 1000);
-  //   return () => clearInterval(timer);
-  // });
+  useEffect(() => {
+    const targetTime = new Date();
+    targetTime.setHours(24);
+    targetTime.setMinutes(0);
+    targetTime.setSeconds(0);
+    const remainingTime = targetTime.getTime() - new Date().getTime();
+    setCountdown(remainingTime / 1000);
+    const timer =
+      countdown > 0 &&
+      setInterval(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+    return () => clearInterval(timer);
+  });
 
-  // useEffect(() => {
-  //   finalBuy();
-  // }, []);
+  useEffect(() => {
+    finalBuy();
+  }, []);
 
   return (
     <>
-      {/* <div style={{ padding: "120px 150px 0px" }}>
+      <div style={{ padding: "120px 150px 0px" }}>
         <div style={{ display: "flex" }}>
           <div style={{ fontSize: "22px", fontWeight: 700 }}>
             <spam style={{ marginRight: "30px" }}>1</spam> Delivery address
@@ -372,8 +372,8 @@ const Buy = () => {
           </div>
           <div className="total_text">{<Total item={cart} />}</div>
         </div>
-      </div> */}
-      {/* <ToastContainer
+      </div>
+      <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -383,7 +383,7 @@ const Buy = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover={false}
-      /> */}
+      />
     </>
   );
 };

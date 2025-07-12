@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Divider from "@mui/material/Divider";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditMobileData = () => {
   const { id } = useParams();
@@ -63,7 +63,7 @@ const EditMobileData = () => {
     if (data.status == 404) {
       console.log("error");
     } else {
-      toast.success("Product updated")
+      toast.success("Product updated");
     }
   };
 
@@ -173,17 +173,7 @@ const EditMobileData = () => {
           </div>
         </div>
       </div>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

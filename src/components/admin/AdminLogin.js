@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
@@ -22,11 +21,11 @@ const AdminLogin = () => {
     const { email, password } = data;
 
     if (email === "") {
-      toast.warn("enter email");
+      toast.error("enter email");
     } else if (!email.includes("@")) {
-      toast.warn("enter valid email");
+      toast.error("enter valid email");
     } else if (password === "") {
-      toast.warn("enter password");
+      toast.error("enter password");
     } else {
       const res = await fetch("/adminlogin", {
         method: "POST",
@@ -107,17 +106,7 @@ const AdminLogin = () => {
           </div>
         </div>
       </body>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

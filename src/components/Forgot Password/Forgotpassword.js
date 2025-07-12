@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
 import "./Sendlink.css";
 
 const Forgotpassword = () => {
@@ -21,7 +20,7 @@ const Forgotpassword = () => {
     e.preventDefault();
     const { pass } = password;
     if (pass == "") {
-      toast.warn("Enter Password");
+      toast.error("Enter Password");
     } else {
       const res = await fetch(`/${id}/${token}`, {
         method: "POST",
@@ -84,17 +83,7 @@ const Forgotpassword = () => {
         </div>
       </div>
 
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover={false}
-      />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

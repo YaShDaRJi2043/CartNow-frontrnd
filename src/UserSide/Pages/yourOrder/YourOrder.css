@@ -1,0 +1,281 @@
+/* YourOrder.css */
+
+.orders-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.orders-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-size: 28px;
+}
+
+.order-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+.spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.no-orders {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.empty-orders img {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.empty-orders h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.empty-orders p {
+  color: #7f8c8d;
+}
+
+.order-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  background-color: #f8f9fa;
+}
+
+.order-meta p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.order-id {
+  font-weight: bold;
+}
+
+.order-status {
+  text-align: right;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.status-badge.processing {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.shipped {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-badge.delivered {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.delivery-estimate {
+  color: #27ae60;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.order-items {
+  padding: 0 20px;
+}
+
+.order-item {
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.item-image {
+  width: 120px;
+  height: 120px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.item-title {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  font-size: 16px;
+}
+
+.item-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #27ae60;
+  margin: 5px 0;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #7f8c8d;
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+.discount {
+  color: #e74c3c;
+  font-size: 14px;
+}
+
+.item-quantity {
+  color: #7f8c8d;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.order-summary {
+  display: flex;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.delivery-address {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.delivery-address h4,
+.order-total h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-size: 16px;
+}
+
+.delivery-address p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.order-total {
+  width: 250px;
+  border-left: 1px solid #eee;
+  padding-left: 20px;
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.grand-total {
+  font-weight: bold;
+  font-size: 16px;
+  color: #2c3e50;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.payment-status {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.paid {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-status {
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .order-summary {
+    flex-direction: column;
+  }
+
+  .order-total {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #eee;
+    padding-left: 0;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+
+  .item-image {
+    width: 80px;
+    height: 80px;
+  }
+}
